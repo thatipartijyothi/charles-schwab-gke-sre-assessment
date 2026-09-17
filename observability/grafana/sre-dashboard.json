@@ -1,0 +1,58 @@
+{
+  "annotations": {"list": []},
+  "editable": true,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "title": "Application 5xx Error Rate",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0},
+      "targets": [{"refId": "A", "expr": "100 * sum by (app) (rate(http_requests_total{namespace=\"sre-demo\",status=~\"5..\"}[5m])) / clamp_min(sum by (app) (rate(http_requests_total{namespace=\"sre-demo\"}[5m])), 0.001)", "legendFormat": "{{app}}"}],
+      "fieldConfig": {"defaults": {"unit": "percent", "min": 0}, "overrides": []}
+    },
+    {
+      "title": "Pod Restarts by Pod",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0},
+      "targets": [{"refId": "A", "expr": "sum by (pod) (increase(kube_pod_container_status_restarts_total{namespace=\"sre-demo\"}[15m]))", "legendFormat": "{{pod}}"}],
+      "fieldConfig": {"defaults": {"unit": "short", "min": 0}, "overrides": []}
+    },
+    {
+      "title": "Request Latency p50 / p95 / p99",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
+      "targets": [
+        {"refId": "A", "expr": "histogram_quantile(0.50, sum by (le, app) (rate(http_request_duration_seconds_bucket{namespace=\"sre-demo\"}[5m])))", "legendFormat": "p50 {{app}}"},
+        {"refId": "B", "expr": "histogram_quantile(0.95, sum by (le, app) (rate(http_request_duration_seconds_bucket{namespace=\"sre-demo\"}[5m])))", "legendFormat": "p95 {{app}}"},
+        {"refId": "C", "expr": "histogram_quantile(0.99, sum by (le, app) (rate(http_request_duration_seconds_bucket{namespace=\"sre-demo\"}[5m])))", "legendFormat": "p99 {{app}}"}
+      ],
+      "fieldConfig": {"defaults": {"unit": "s", "min": 0}, "overrides": []}
+    },
+    {
+      "title": "Pod CPU Utilization",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 6, "x": 12, "y": 8},
+      "targets": [{"refId": "A", "expr": "sum by (pod) (rate(container_cpu_usage_seconds_total{namespace=\"sre-demo\",container!=\"\"}[5m]))", "legendFormat": "{{pod}}"}],
+      "fieldConfig": {"defaults": {"unit": "cores", "min": 0}, "overrides": []}
+    },
+    {
+      "title": "Pod Memory Working Set",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 6, "x": 18, "y": 8},
+      "targets": [{"refId": "A", "expr": "sum by (pod) (container_memory_working_set_bytes{namespace=\"sre-demo\",container!=\"\"})", "legendFormat": "{{pod}}"}],
+      "fieldConfig": {"defaults": {"unit": "bytes", "min": 0}, "overrides": []}
+    }
+  ],
+  "refresh": "30s",
+  "schemaVersion": 39,
+  "tags": ["gke", "sre", "assessment"],
+  "templating": {"list": []},
+  "time": {"from": "now-6h", "to": "now"},
+  "timezone": "browser",
+  "title": "GKE SRE Assessment — Golden Signals",
+  "uid": "gke-sre-assessment",
+  "version": 1
+}
+

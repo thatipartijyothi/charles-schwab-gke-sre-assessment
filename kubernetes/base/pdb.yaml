@@ -1,0 +1,20 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: app-a
+  namespace: sre-demo
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels: {app: app-a}
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: app-b
+  namespace: sre-demo
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels: {app: app-b}
+

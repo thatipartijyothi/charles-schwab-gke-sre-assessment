@@ -1,0 +1,8 @@
+project_id          = "replace-with-your-gcp-project-id"
+primary_region      = "us-central1"
+secondary_region    = "us-east1"
+primary_zone        = "us-central1-a"
+secondary_zone      = "us-east1-b"
+machine_type        = "e2-standard-2"
+nodes_per_cluster   = 1
+

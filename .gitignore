@@ -1,0 +1,15 @@
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+.terraform.lock.hcl
+terraform.tfvars
+*.pem
+*.key
+.env
+__pycache__/
+*.pyc
+.DS_Store
+docs/screenshots/*.png
+!docs/screenshots/.gitkeep
+

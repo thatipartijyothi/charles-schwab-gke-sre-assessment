@@ -1,0 +1,22 @@
+apiVersion: monitoring.googleapis.com/v1
+kind: PodMonitoring
+metadata:
+  name: app-a
+  namespace: sre-demo
+spec:
+  selector:
+    matchLabels: {app: app-a}
+  endpoints:
+    - {port: http, path: /metrics, interval: 30s}
+---
+apiVersion: monitoring.googleapis.com/v1
+kind: PodMonitoring
+metadata:
+  name: app-b
+  namespace: sre-demo
+spec:
+  selector:
+    matchLabels: {app: app-b}
+  endpoints:
+    - {port: http, path: /metrics, interval: 30s}
+

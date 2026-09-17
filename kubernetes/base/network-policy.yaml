@@ -1,0 +1,14 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-web-and-monitoring
+  namespace: sre-demo
+spec:
+  podSelector:
+    matchExpressions:
+      - {key: app, operator: In, values: [app-a, app-b]}
+  policyTypes: [Ingress]
+  ingress:
+    - ports:
+        - {protocol: TCP, port: 8080}
+
